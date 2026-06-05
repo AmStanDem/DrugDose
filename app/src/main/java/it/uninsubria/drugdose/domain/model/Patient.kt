@@ -6,6 +6,7 @@ package it.uninsubria.drugdose.domain.model
  * @property weightKg Il peso del paziente in chilogrammi (fondamentale per dosi mg/kg).
  * @property heightCm L'altezza del paziente in centimetri (necessaria per il calcolo della BSA).
  * @property ageYears L'età del paziente in anni (utile per vincoli e alert clinici).
+ * @author Thomas Riotto
  */
 data class Patient(
     val weightKg: Double? = null,
