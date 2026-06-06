@@ -1,5 +1,7 @@
 package it.uninsubria.drugdose.domain.model
 
+import kotlinx.serialization.Serializable
+
 /**
  * Definisce le modalità di calcolo del dosaggio supportate dal sistema DrugDose.
  *
@@ -8,6 +10,7 @@ package it.uninsubria.drugdose.domain.model
  *
  * @author Thomas Riotto
  */
+@Serializable
 enum class FormulaType {
     /**
      * Calcolo basato sul peso corporeo del paziente.
