@@ -1,0 +1,194 @@
+[
+  {
+    "id": "ivermectina_001",
+    "name": "Ivermectina",
+    "indication": "Scabbia (WHO/BNF)",
+    "formulaType": "PER_KG",
+    "unitDose": 200.0,
+    "unit": "μg",
+    "maxDose": 15000.0,
+    "minWeightKg": 15.0,
+    "source": "WHO Patient Information Leaflet",
+    "alerts": ["Assumere a stomaco vuoto", "Non usare in gravidanza"]
+  },
+  {
+    "id": "amoxicillina_001",
+    "name": "Amoxicillina",
+    "indication": "Infezioni batteriche comuni",
+    "formulaType": "PER_KG",
+    "unitDose": 50.0,
+    "unit": "mg",
+    "maxDose": 3000.0,
+    "source": "AIFA / RCP",
+    "alerts": ["Verificare allergia alle penicilline"]
+  },
+  {
+    "id": "ibuprofene_001",
+    "name": "Ibuprofene",
+    "indication": "Febbre e dolore (Pediatria)",
+    "formulaType": "PER_KG",
+    "unitDose": 10.0,
+    "unit": "mg",
+    "maxDose": 400.0,
+    "minWeightKg": 7.0,
+    "source": "AIFA",
+    "alerts": ["Assumere a stomaco pieno"]
+  },
+  {
+    "id": "azitromicina_001",
+    "name": "Azitromicina",
+    "indication": "Infezioni respiratorie",
+    "formulaType": "PER_KG",
+    "unitDose": 10.0,
+    "unit": "mg",
+    "maxDose": 500.0,
+    "source": "RCP",
+    "alerts": ["Somministrare una volta al giorno"]
+  },
+  {
+    "id": "metotrexato_001",
+    "name": "Metotrexato",
+    "indication": "Psoriasi grave",
+    "formulaType": "PER_BSA",
+    "unitDose": 15.0,
+    "unit": "mg",
+    "maxDose": 25.0,
+    "source": "Linee Guida Dermatologiche",
+    "alerts": ["Monitoraggio epatico settimanale", "Teratogeno"]
+  },
+  {
+    "id": "citosina_001",
+    "name": "Citosina Arabinoside",
+    "indication": "Protocolli oncologici",
+    "formulaType": "PER_BSA",
+    "unitDose": 100.0,
+    "unit": "mg",
+    "source": "NICE",
+    "alerts": ["Solo uso ospedaliero"]
+  },
+  {
+    "id": "ciclofosfamide_001",
+    "name": "Ciclofosfamide",
+    "indication": "Immunosoppressione",
+    "formulaType": "PER_BSA",
+    "unitDose": 500.0,
+    "unit": "mg",
+    "source": "BNF",
+    "alerts": ["Idratare abbondantemente"]
+  },
+  {
+    "id": "5fu_001",
+    "name": "5-Fluorouracile",
+    "indication": "Carcinoma basocellulare (Sistemico)",
+    "formulaType": "PER_BSA",
+    "unitDose": 12.0,
+    "unit": "mg",
+    "source": "RCP",
+    "alerts": ["Monitoraggio tossicità ematica"]
+  },
+  {
+    "id": "cetirizina_001",
+    "name": "Cetirizina",
+    "indication": "Orticaria e allergie",
+    "formulaType": "FIXED",
+    "unitDose": 10.0,
+    "unit": "mg",
+    "minAgeYears": 6,
+    "source": "AIFA",
+    "alerts": ["Può causare sonnolenza"]
+  },
+  {
+    "id": "vitamina_d_001",
+    "name": "Vitamina D3",
+    "indication": "Integrazione standard",
+    "formulaType": "FIXED",
+    "unitDose": 1000.0,
+    "unit": "UI",
+    "source": "Linee Guida",
+    "alerts": ["Assumere preferibilmente con i pasti"]
+  },
+  {
+    "id": "aspirina_001",
+    "name": "Aspirina",
+    "indication": "Prevenzione cardiovascolare",
+    "formulaType": "FIXED",
+    "unitDose": 100.0,
+    "unit": "mg",
+    "source": "ESC Guidelines",
+    "alerts": ["Rischio emorragico"]
+  },
+  {
+    "id": "pantoprazolo_001",
+    "name": "Pantoprazolo",
+    "indication": "Protezione gastrica",
+    "formulaType": "FIXED",
+    "unitDose": 20.0,
+    "unit": "mg",
+    "source": "AIFA",
+    "alerts": ["Assumere 30 minuti prima di colazione"]
+  },
+  {
+    "id": "parassitol_001",
+    "name": "Farmaco X (Fasce)",
+    "indication": "Esempio Dosaggio a Fasce",
+    "formulaType": "WEIGHT_RANGE",
+    "unitDose": 0.0,
+    "unit": "mg",
+    "source": "Protocollo Interno",
+    "alerts": ["Seguire rigorosamente la fascia di peso"],
+    "weightRanges": [
+      {"minKg": 10.0, "maxKg": 20.0, "dose": 50.0},
+      {"minKg": 20.1, "maxKg": 40.0, "dose": 100.0},
+      {"minKg": 40.1, "maxKg": 70.0, "dose": 200.0},
+      {"minKg": 70.1, "maxKg": 150.0, "dose": 300.0}
+    ]
+  },
+  {
+    "id": "fascia_antielm_001",
+    "name": "Antielmintico Pediatrico",
+    "indication": "Infestazioni parassitarie",
+    "formulaType": "WEIGHT_RANGE",
+    "unitDose": 0.0,
+    "unit": "ml",
+    "source": "WHO Guidelines",
+    "alerts": ["Agitare bene prima dell'uso"],
+    "weightRanges": [
+      {"minKg": 5.0, "maxKg": 10.0, "dose": 2.5},
+      {"minKg": 10.1, "maxKg": 20.0, "dose": 5.0},
+      {"minKg": 20.1, "maxKg": 30.0, "dose": 7.5},
+      {"minKg": 30.1, "maxKg": 60.0, "dose": 10.0}
+    ]
+  },
+  {
+    "id": "steroid_pulse_001",
+    "name": "Steroide Orale (Fasce)",
+    "indication": "Attacco asmatico / Reazioni allergiche",
+    "formulaType": "WEIGHT_RANGE",
+    "unitDose": 0.0,
+    "unit": "mg",
+    "source": "Emergency Protocol",
+    "alerts": ["Non sospendere bruscamente"],
+    "weightRanges": [
+      {"minKg": 0.0, "maxKg": 15.0, "dose": 5.0},
+      {"minKg": 15.1, "maxKg": 30.0, "dose": 10.0},
+      {"minKg": 30.1, "maxKg": 50.0, "dose": 20.0},
+      {"minKg": 50.1, "maxKg": 200.0, "dose": 40.0}
+    ]
+  },
+  {
+    "id": "contrast_agent_001",
+    "name": "Mezzo di Contrasto",
+    "indication": "Diagnostica per immagini",
+    "formulaType": "WEIGHT_RANGE",
+    "unitDose": 0.0,
+    "unit": "ml",
+    "source": "Radiology Protocol",
+    "alerts": ["Verificare funzionalità renale"],
+    "weightRanges": [
+      {"minKg": 40.0, "maxKg": 60.0, "dose": 50.0},
+      {"minKg": 60.1, "maxKg": 80.0, "dose": 75.0},
+      {"minKg": 80.1, "maxKg": 100.0, "dose": 100.0},
+      {"minKg": 100.1, "maxKg": 250.0, "dose": 125.0}
+    ]
+  }
+]
