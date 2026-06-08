@@ -16,7 +16,8 @@ fun DrugEntity.toDomain(): Drug {
         minWeightKg = minWeightKg,
         minAgeYears = minAgeYears,
         source = source,
-        alerts = alerts
+        alerts = alerts,
+        weightRanges = weightRanges
     )
 }
 
@@ -33,6 +34,7 @@ fun Drug.toEntity(): DrugEntity {
         minWeightKg = minWeightKg,
         minAgeYears = minAgeYears,
         source = source,
-        alerts = alerts
+        alerts = alerts,
+        weightRanges = weightRanges
     )
 }

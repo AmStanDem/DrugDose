@@ -4,6 +4,7 @@ import it.uninsubria.drugdose.domain.model.Drug
 import it.uninsubria.drugdose.domain.model.FormulaType
 import it.uninsubria.drugdose.domain.model.Patient
 import kotlin.math.sqrt
+import javax.inject.Inject
 
 /**
  * Use Case responsabile del calcolo della dose teorica totale.
@@ -17,7 +18,7 @@ import kotlin.math.sqrt
  *
  * @author Thomas Riotto
  */
-class CalculateDoseUseCase {
+class CalculateDoseUseCase @Inject constructor() {
 
     /**
      * Esegue il calcolo della dose in base ai parametri del paziente e del farmaco.
@@ -27,6 +28,21 @@ class CalculateDoseUseCase {
      * @return Il valore numerico della dose calcolata. Restituisce 0.0 se i parametri necessari sono assenti.
      */
     operator fun invoke(patient: Patient, drug: Drug): Double {
+
+        drug.minAgeYears?.let { minAge ->
+            val patientAge = patient.ageYears ?: 0
+            if (patientAge < minAge) {
+                throw IllegalArgumentException("Attenzione: farmaco non indicato sotto i $minAge anni.")
+            }
+        }
+
+        drug.minWeightKg?.let { minWeight ->
+            val patientWeight = patient.weightKg ?: 0.0
+            if (patientWeight < minWeight) {
+                throw IllegalArgumentException("Il peso ($patientWeight kg) è inferiore al minimo richiesto di $minWeight kg.")
+            }
+        }
+
         return when (drug.formulaType) {
             FormulaType.PER_KG -> {
                 val weight = patient.weightKg ?: 0.0
@@ -44,8 +60,9 @@ class CalculateDoseUseCase {
             FormulaType.FIXED -> drug.unitDose
 
             FormulaType.WEIGHT_RANGE -> {
-                // TODO: Implementare la logica delle tabelle a intervalli quando la struttura dati sarà definita
-                0.0
+                val weight = patient.weightKg ?: 0.0
+                val range = drug.weightRanges.find { weight >= it.minKg && weight <= it.maxKg }
+                range?.dose ?: 0.0
             }
         }
     }

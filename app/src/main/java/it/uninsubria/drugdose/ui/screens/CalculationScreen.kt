@@ -19,10 +19,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.ui.res.stringResource
+import it.uninsubria.drugdose.R
 import it.uninsubria.drugdose.domain.model.Drug
 import it.uninsubria.drugdose.domain.model.FormulaType
 import it.uninsubria.drugdose.ui.calculation.CalculationStep
 import it.uninsubria.drugdose.ui.calculation.CalculationViewModel
+import it.uninsubria.drugdose.ui.components.DrugSelector
+import it.uninsubria.drugdose.ui.components.SafetyAlertCard
+import it.uninsubria.drugdose.ui.components.StepIndicator
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -34,11 +39,11 @@ fun CalculationScreen(
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text("Calcolatore Dose", fontWeight = FontWeight.Bold) },
+                title = { Text(stringResource(R.string.calc_title), fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     if (uiState.currentStep != CalculationStep.DRUG_SELECTION) {
                         IconButton(onClick = viewModel::previousStep) {
-                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Indietro")
+                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.calc_back))
                         }
                     }
                 },
@@ -62,7 +67,7 @@ fun CalculationScreen(
                             else -> true
                         }
                     ) {
-                        Text(if (uiState.currentStep == CalculationStep.PATIENT_DATA) "CALCOLA" else "AVANTI")
+                        Text(if (uiState.currentStep == CalculationStep.PATIENT_DATA) stringResource(R.string.calc_calculate) else stringResource(R.string.calc_next))
                         Spacer(Modifier.width(8.dp))
                         Icon(
                             if (uiState.currentStep == CalculationStep.PATIENT_DATA) Icons.Default.Check else Icons.AutoMirrored.Filled.ArrowForward,
@@ -128,47 +133,9 @@ fun CalculationScreen(
             }
 
             uiState.error?.let {
-                Text(text = it, color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
+                Text(text = it.asString(), color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
             }
         }
-    }
-}
-
-@Composable
-fun StepIndicator(currentStep: CalculationStep) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceEvenly,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        StepCircle(label = "Farmaco", active = currentStep == CalculationStep.DRUG_SELECTION, completed = currentStep.ordinal > 0)
-        HorizontalDivider(modifier = Modifier.weight(1f).padding(horizontal = 8.dp))
-        StepCircle(label = "Paziente", active = currentStep == CalculationStep.PATIENT_DATA, completed = currentStep.ordinal > 1)
-        HorizontalDivider(modifier = Modifier.weight(1f).padding(horizontal = 8.dp))
-        StepCircle(label = "Risultato", active = currentStep == CalculationStep.RESULT, completed = false)
-    }
-}
-
-@Composable
-fun StepCircle(label: String, active: Boolean, completed: Boolean) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Surface(
-            shape = MaterialTheme.shapes.extraLarge,
-            color = if (completed) Color(0xFF4CAF50) else if (active) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant,
-            modifier = Modifier.size(32.dp)
-        ) {
-            Box(contentAlignment = Alignment.Center) {
-                if (completed) {
-                    Icon(Icons.Default.Check, contentDescription = null, tint = Color.White, modifier = Modifier.size(16.dp))
-                } else {
-                    Text(
-                        text = if (active) "•" else "",
-                        color = if (active) Color.White else MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
-        }
-        Text(text = label, style = MaterialTheme.typography.labelSmall, modifier = Modifier.padding(top = 4.dp))
     }
 }
 
@@ -179,7 +146,7 @@ fun DrugSelectionStep(
     onDrugSelected: (Drug) -> Unit
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-        Text("Quale farmaco vuoi calcolare?", style = MaterialTheme.typography.titleMedium)
+        Text(stringResource(R.string.drug_selection_prompt), style = MaterialTheme.typography.titleMedium)
         DrugSelector(
             drugs = drugs,
             selectedDrug = selectedDrug,
@@ -209,12 +176,12 @@ fun PatientDataStep(
     onAgeChanged: (String) -> Unit
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(20.dp)) {
-        Text("Inserisci i dati del paziente", style = MaterialTheme.typography.titleMedium)
+        Text(stringResource(R.string.patient_data_title), style = MaterialTheme.typography.titleMedium)
         
         OutlinedTextField(
             value = weight,
             onValueChange = onWeightChanged,
-            label = { Text("Peso Corporeo (kg)") },
+            label = { Text(stringResource(R.string.patient_weight_label)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
             modifier = Modifier.fillMaxWidth(),
             prefix = { Icon(Icons.Default.Check, contentDescription = null, modifier = Modifier.size(16.dp)) } // Segnaposto icona
@@ -224,7 +191,7 @@ fun PatientDataStep(
             OutlinedTextField(
                 value = height,
                 onValueChange = onHeightChanged,
-                label = { Text("Altezza (cm)") },
+                label = { Text(stringResource(R.string.patient_height_label)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                 modifier = Modifier.fillMaxWidth()
             )
@@ -233,7 +200,7 @@ fun PatientDataStep(
         OutlinedTextField(
             value = age,
             onValueChange = onAgeChanged,
-            label = { Text("Età (anni)") },
+            label = { Text(stringResource(R.string.patient_age_label)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             modifier = Modifier.fillMaxWidth()
         )
@@ -263,7 +230,7 @@ fun ResultStep(
                 modifier = Modifier.padding(24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text("Dose Totale", style = MaterialTheme.typography.titleMedium)
+                Text(stringResource(R.string.result_total_dose), style = MaterialTheme.typography.titleMedium)
                 Text(
                     text = "${String.format(locale, "%.2f", dose)} $unit",
                     style = MaterialTheme.typography.displayMedium,
@@ -281,67 +248,7 @@ fun ResultStep(
             onClick = onReset,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("MODIFICA DATI")
-        }
-    }
-}
-
-@Composable
-fun SafetyAlertCard(alerts: List<String>) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFFFFF3E0))
-    ) {
-        Column(Modifier.padding(16.dp)) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text("⚠️", modifier = Modifier.padding(end = 8.dp))
-                Text("AVVISI DI SICUREZZA", fontWeight = FontWeight.Bold, color = Color(0xFFE65100))
-            }
-            Spacer(Modifier.height(8.dp))
-            alerts.forEach { alert ->
-                Text("• $alert", style = MaterialTheme.typography.bodySmall)
-            }
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun DrugSelector(
-    drugs: List<Drug>,
-    selectedDrug: Drug?,
-    onDrugSelected: (Drug) -> Unit
-) {
-    var expanded by remember { mutableStateOf(false) }
-
-    ExposedDropdownMenuBox(
-        expanded = expanded,
-        onExpandedChange = { expanded = !expanded }
-    ) {
-        OutlinedTextField(
-            value = selectedDrug?.name ?: "Seleziona farmaco",
-            onValueChange = {},
-            readOnly = true,
-            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-            modifier = Modifier
-                .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable)
-                .fillMaxWidth(),
-            colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors()
-        )
-
-        ExposedDropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false }
-        ) {
-            drugs.forEach { drug ->
-                DropdownMenuItem(
-                    text = { Text(drug.name) },
-                    onClick = {
-                        onDrugSelected(drug)
-                        expanded = false
-                    }
-                )
-            }
+            Text(stringResource(R.string.calc_edit_data))
         }
     }
 }

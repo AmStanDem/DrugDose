@@ -6,7 +6,7 @@ import androidx.room.TypeConverters
 import it.uninsubria.drugdose.data.local.entity.DrugEntity
 import it.uninsubria.drugdose.data.local.dao.DrugDao
 
-@Database(entities = [DrugEntity::class], version = 1)
+@Database(entities = [DrugEntity::class], version = 2)
 @TypeConverters(Converters::class)
 abstract class DrugDatabase : RoomDatabase() {
     abstract fun drugDao(): DrugDao

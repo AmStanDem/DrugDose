@@ -1,6 +1,7 @@
 package it.uninsubria.drugdose.ui.calculation
 
 import it.uninsubria.drugdose.domain.model.Drug
+import it.uninsubria.drugdose.ui.util.UiText
 
 /**
  * Rappresenta lo stato dell'interfaccia utente per la schermata di calcolo.
@@ -12,7 +13,7 @@ import it.uninsubria.drugdose.domain.model.Drug
  * @property ageInput Input testuale per l'età.
  * @property calculatedDose Risultato del calcolo della dose.
  * @property showResult Flag per mostrare/nascondere la card del risultato.
- * @property error Errore di validazione o di sistema da mostrare.
+ * @property error Errore di validazione o di sistema da mostrare (internazionalizzabile).
  */
 data class CalculationUiState(
     val drugs: List<Drug> = emptyList(),
@@ -22,7 +23,7 @@ data class CalculationUiState(
     val ageInput: String = "",
     val calculatedDose: Double? = null,
     val showResult: Boolean = false,
-    val error: String? = null,
+    val error: UiText? = null,
     val currentStep: CalculationStep = CalculationStep.DRUG_SELECTION
 )
 

@@ -2,6 +2,7 @@ package it.uninsubria.drugdose.data.local
 
 import androidx.room.TypeConverter
 import it.uninsubria.drugdose.domain.model.FormulaType
+import it.uninsubria.drugdose.domain.model.WeightRange
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
@@ -20,4 +21,10 @@ class Converters {
 
     @TypeConverter
     fun toFormulaType(value: String): FormulaType = FormulaType.valueOf(value)
+
+    @TypeConverter
+    fun fromWeightRangeList(value: List<WeightRange>): String = json.encodeToString(value)
+
+    @TypeConverter
+    fun toWeightRangeList(value: String): List<WeightRange> = json.decodeFromString(value)
 }

@@ -5,12 +5,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
+import it.uninsubria.drugdose.R
 import it.uninsubria.drugdose.domain.model.Drug
 import it.uninsubria.drugdose.domain.model.Patient
 import it.uninsubria.drugdose.domain.repository.DrugRepository
 import it.uninsubria.drugdose.domain.usecase.CalculateDoseUseCase
 import it.uninsubria.drugdose.domain.usecase.GetDrugsUseCase
 import it.uninsubria.drugdose.ui.navigation.DrugDetailRoute
+import it.uninsubria.drugdose.ui.util.UiText
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -60,15 +62,22 @@ class CalculationViewModel @Inject constructor(
     }
 
     fun onWeightChanged(weight: String) {
-        _uiState.update { it.copy(weightInput = weight) }
+        // Accetta solo numeri positivi e virgola/punto decimale
+        if (weight.isEmpty() || weight.matches(Regex("""^\d*[.,]?\d*$"""))) {
+            _uiState.update { it.copy(weightInput = weight.replace(',', '.')) }
+        }
     }
 
     fun onHeightChanged(height: String) {
-        _uiState.update { it.copy(heightInput = height) }
+        if (height.isEmpty() || height.matches(Regex("""^\d*[.,]?\d*$"""))) {
+            _uiState.update { it.copy(heightInput = height.replace(',', '.')) }
+        }
     }
 
     fun onAgeChanged(age: String) {
-        _uiState.update { it.copy(ageInput = age) }
+        if (age.isEmpty() || age.matches(Regex("""^\d*$"""))) {
+            _uiState.update { it.copy(ageInput = age) }
+        }
     }
 
     fun nextStep() {
@@ -119,8 +128,10 @@ class CalculationViewModel @Inject constructor(
                     error = null
                 ) 
             }
+        } catch (e: IllegalArgumentException) {
+            _uiState.update { it.copy(error = UiText.DynamicString(e.message ?: "")) }
         } catch (e: Exception) {
-            _uiState.update { it.copy(error = "Errore nel calcolo: ${e.message}") }
+            _uiState.update { it.copy(error = UiText.StringResource(R.string.error_calculation, e.message ?: "")) }
         }
     }
 }
