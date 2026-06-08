@@ -1,3 +1,36 @@
 <resources>
     <string name="app_name">DrugDose</string>
+
+    <!-- Calculation Screen -->
+    <string name="calc_title">Calcolatore Dose</string>
+    <string name="calc_back">Indietro</string>
+    <string name="calc_calculate">CALCOLA</string>
+    <string name="calc_next">AVANTI</string>
+    <string name="calc_edit_data">MODIFICA DATI</string>
+
+    <!-- Step Labels -->
+    <string name="step_drug">Farmaco</string>
+    <string name="step_patient">Paziente</string>
+    <string name="step_result">Risultato</string>
+
+    <!-- Patient Data Input -->
+    <string name="patient_data_title">Inserisci i dati del paziente</string>
+    <string name="patient_weight_label">Peso Corporeo (kg)</string>
+    <string name="patient_height_label">Altezza (cm)</string>
+    <string name="patient_age_label">Età (anni)</string>
+
+    <!-- Drug Selection -->
+    <string name="drug_selection_prompt">Quale farmaco vuoi calcolare?</string>
+    <string name="drug_selector_placeholder">Seleziona farmaco</string>
+
+    <!-- Result -->
+    <string name="result_total_dose">Dose Totale</string>
+    <string name="safety_alerts_title">AVVISI DI SICUREZZA</string>
+
+    <!-- Errors -->
+    <string name="error_calculation">Errore nel calcolo: %s</string>
+    <string name="error_min_age">Attenzione: farmaco non indicato sotto i %d anni.</string>
+    <string name="error_min_weight">Il peso (%1$.1f kg) è inferiore al minimo richiesto di %2$.1f kg.</string>
+    <string name="error_no_drug_found">Nessun farmaco trovato</string>
+    <string name="error_db_empty">Il database locale è vuoto.</string>
 </resources>
