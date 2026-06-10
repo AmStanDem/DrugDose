@@ -8,11 +8,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import it.uninsubria.drugdose.R
 import it.uninsubria.drugdose.ui.calculation.CalculationStep
 
+/**
+ * Indicatore visivo del progresso del calcolo della dose.
+ * Mostra una serie di cerchi numerati o con icone che rappresentano gli step:
+ * Farmaco -> Dati Paziente -> Risultato.
+ *
+ * @param currentStep Lo step attuale nel processo di calcolo.
+ * @author Thomas Riotto
+ */
 @Composable
 fun StepIndicator(currentStep: CalculationStep) {
     Row(
@@ -20,16 +28,36 @@ fun StepIndicator(currentStep: CalculationStep) {
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        StepCircle(label = stringResource(R.string.step_drug), active = currentStep == CalculationStep.DRUG_SELECTION, completed = currentStep.ordinal > 0)
+        StepCircle(
+            label = stringResource(R.string.step_drug), 
+            active = currentStep == CalculationStep.DRUG_SELECTION, 
+            completed = currentStep.ordinal > 0
+        )
         HorizontalDivider(modifier = Modifier.weight(1f).padding(horizontal = 8.dp))
-        StepCircle(label = stringResource(R.string.step_patient), active = currentStep == CalculationStep.PATIENT_DATA, completed = currentStep.ordinal > 1)
+        StepCircle(
+            label = stringResource(R.string.step_patient), 
+            active = currentStep == CalculationStep.PATIENT_DATA, 
+            completed = currentStep.ordinal > 1
+        )
         HorizontalDivider(modifier = Modifier.weight(1f).padding(horizontal = 8.dp))
-        StepCircle(label = stringResource(R.string.step_result), active = currentStep == CalculationStep.RESULT, completed = false)
+        StepCircle(
+            label = stringResource(R.string.step_result), 
+            active = currentStep == CalculationStep.RESULT, 
+            completed = false
+        )
     }
 }
 
+/**
+ * Singolo elemento circolare dell'indicatore di step.
+ * Cambia colore in base allo stato (attivo, completato o inattivo).
+ *
+ * @param label Etichetta testuale dello step.
+ * @param active Vero se lo step è quello attualmente visualizzato.
+ * @param completed Vero se lo step è stato già completato.
+ */
 @Composable
-fun StepCircle(label: String, active: Boolean, completed: Boolean) {
+private fun StepCircle(label: String, active: Boolean, completed: Boolean) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Surface(
             shape = MaterialTheme.shapes.extraLarge,

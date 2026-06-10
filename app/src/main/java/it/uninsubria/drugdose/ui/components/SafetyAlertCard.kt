@@ -6,12 +6,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-
-import androidx.compose.ui.res.stringResource
 import it.uninsubria.drugdose.R
 
+/**
+ * Card dedicata alla visualizzazione degli avvisi di sicurezza clinica.
+ * Utilizza un colore di sfondo giallo/arancio per attirare l'attenzione dell'utente.
+ *
+ * @param alerts Lista di messaggi di avviso o controindicazioni da mostrare.
+ * @author Thomas Riotto
+ */
 @Composable
 fun SafetyAlertCard(alerts: List<String>) {
     Card(
@@ -21,7 +27,11 @@ fun SafetyAlertCard(alerts: List<String>) {
         Column(Modifier.padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text("⚠️", modifier = Modifier.padding(end = 8.dp))
-                Text(stringResource(R.string.safety_alerts_title), fontWeight = FontWeight.Bold, color = Color(0xFFE65100))
+                Text(
+                    text = stringResource(R.string.safety_alerts_title), 
+                    fontWeight = FontWeight.Bold, 
+                    color = Color(0xFFE65100)
+                )
             }
             Spacer(Modifier.height(8.dp))
             alerts.forEach { alert ->
