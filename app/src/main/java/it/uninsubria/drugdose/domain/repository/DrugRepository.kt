@@ -4,14 +4,21 @@ import it.uninsubria.drugdose.domain.model.Drug
 import kotlinx.coroutines.flow.Flow
 
 /**
- * Interfaccia per la gestione dei dati dei farmaci.
+ * Interfaccia del Repository per la gestione dei dati dei farmaci.
+ * Definisce il contratto per l'accesso ai dati, astraendo la sorgente (DB, API, ecc.).
  *
- * Segue il Repository Pattern per isolare il dominio dalla sorgente dati reale.
+ * @author Thomas Riotto
  */
 interface DrugRepository {
-    /** Recupera tutti i farmaci disponibili. */
+    /**
+     * Fornisce un flusso continuo della lista di farmaci disponibili.
+     */
     fun getDrugs(): Flow<List<Drug>>
 
-    /** Recupera un farmaco specifico tramite il suo ID. */
+    /**
+     * Recupera i dettagli di un singolo farmaco in base all'ID.
+     * @param id Identificativo univoco del farmaco.
+     * @return Il modello [Drug] o null se non esiste.
+     */
     suspend fun getDrugById(id: String): Drug?
 }

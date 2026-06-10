@@ -3,7 +3,14 @@ package it.uninsubria.drugdose.data.mapper
 import it.uninsubria.drugdose.data.local.entity.DrugEntity
 import it.uninsubria.drugdose.domain.model.Drug
 
-// Trasforma Entity -> Domain
+/**
+ * Mapper responsabile della conversione tra entità di database (Data Layer)
+ * e modelli di dominio (Domain Layer).
+ *
+ * Assicura il disaccoppiamento tra la struttura del database Room e la logica di business.
+ *
+ * @author Thomas Riotto
+ */
 fun DrugEntity.toDomain(): Drug {
     return Drug(
         id = id,
@@ -21,7 +28,9 @@ fun DrugEntity.toDomain(): Drug {
     )
 }
 
-// Trasforma Domain -> Entity (utile per il salvataggio)
+/**
+ * Converte un modello di dominio in un'entità per la persistenza su database.
+ */
 fun Drug.toEntity(): DrugEntity {
     return DrugEntity(
         id = id,
