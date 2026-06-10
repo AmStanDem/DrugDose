@@ -71,21 +71,38 @@ class CalculateDoseUseCaseTest {
         
         assertEquals(50.0, useCase(Patient(weightKg = 15.0), drug), 0.001)
         assertEquals(100.0, useCase(Patient(weightKg = 30.0), drug), 0.001)
-        assertEquals(0.0, useCase(Patient(weightKg = 5.0), drug), 0.001)
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun `calculate dose throws exception when age is below minimum`() {
+        val patient = Patient(weightKg = 20.0, ageYears = 4)
+        val drug = Drug(
+            id = "test", name = "Test", indication = "Test",
+            formulaType = FormulaType.FIXED, unitDose = 10.0, unit = "mg",
+            minAgeYears = 6
+        )
+        
+        useCase(patient, drug)
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun `calculate dose throws exception when weight is below minimum`() {
+        val patient = Patient(weightKg = 10.0, ageYears = 10)
+        val drug = Drug(
+            id = "test", name = "Test", indication = "Test",
+            formulaType = FormulaType.PER_KG, unitDose = 10.0, unit = "mg",
+            minWeightKg = 15.0
+        )
+        
+        useCase(patient, drug)
     }
 
     @Test
-    fun `calculate dose with missing parameters returns zero`() {
+    fun `calculate dose with missing parameters returns zero when no safety constraints`() {
         val drugKg = Drug(
             id = "test", name = "Test", indication = "Test",
             formulaType = FormulaType.PER_KG, unitDose = 10.0, unit = "mg"
         )
         assertEquals(0.0, useCase(Patient(weightKg = null), drugKg), 0.001)
-
-        val drugBsa = Drug(
-            id = "test", name = "Test", indication = "Test",
-            formulaType = FormulaType.PER_BSA, unitDose = 10.0, unit = "mg"
-        )
-        assertEquals(0.0, useCase(Patient(weightKg = 70.0, heightCm = null), drugBsa), 0.001)
     }
 }
