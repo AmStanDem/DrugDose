@@ -1,33 +1,35 @@
 package it.uninsubria.drugdose.ui.screens
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.compose.ui.res.stringResource
 import it.uninsubria.drugdose.R
-import it.uninsubria.drugdose.domain.model.Drug
 import it.uninsubria.drugdose.ui.components.DrugCard
 import it.uninsubria.drugdose.ui.components.EmptyStateMessage
 import it.uninsubria.drugdose.ui.viewmodel.DrugListViewModel
 
+/**
+ * Schermata dell'elenco dei farmaci disponibili nel database.
+ * Rappresenta il punto di ingresso principale dell'applicazione.
+ *
+ * @param onNavigateToDetail Callback per navigare alla schermata di calcolo per un farmaco specifico.
+ * @param viewModel Il ViewModel che gestisce il caricamento e lo stato della lista dei farmaci.
+ * @author Thomas Riotto
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DrugListScreen(
     onNavigateToDetail: (String) -> Unit,
     viewModel: DrugListViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel<DrugListViewModel>()
 ) {
-    // Uso collectAsStateWithLifecycle per ottimizzare il consumo di risorse
     val drugs by viewModel.drugs.collectAsStateWithLifecycle()
 
     Scaffold(

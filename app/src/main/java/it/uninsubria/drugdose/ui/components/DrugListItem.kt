@@ -11,6 +11,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import it.uninsubria.drugdose.domain.model.Drug
 
+/**
+ * Elemento grafico che rappresenta un farmaco all'interno di una lista.
+ * Mostra il nome del farmaco e la sua indicazione clinica principale.
+ *
+ * @param drug Il modello del farmaco da visualizzare.
+ * @param onClick Azione da eseguire quando l'utente clicca sulla card.
+ * @author Thomas Riotto
+ */
 @Composable
 fun DrugCard(
     drug: Drug,

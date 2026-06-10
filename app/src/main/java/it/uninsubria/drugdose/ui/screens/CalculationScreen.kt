@@ -15,34 +15,75 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.compose.ui.res.stringResource
 import it.uninsubria.drugdose.R
 import it.uninsubria.drugdose.domain.model.Drug
 import it.uninsubria.drugdose.domain.model.FormulaType
 import it.uninsubria.drugdose.ui.calculation.CalculationStep
+import it.uninsubria.drugdose.ui.calculation.CalculationUiState
 import it.uninsubria.drugdose.ui.calculation.CalculationViewModel
 import it.uninsubria.drugdose.ui.components.DrugSelector
 import it.uninsubria.drugdose.ui.components.SafetyAlertCard
 import it.uninsubria.drugdose.ui.components.StepIndicator
 
-@OptIn(ExperimentalMaterial3Api::class)
+/**
+ * Schermata principale del processo di calcolo della dose.
+ * Gestisce l'integrazione con il ViewModel e delega la visualizzazione al contenuto stateless.
+ *
+ * @param viewModel Il ViewModel che mantiene lo stato del calcolo.
+ * @author Thomas Riotto
+ */
 @Composable
 fun CalculationScreen(
     viewModel: CalculationViewModel
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
+    CalculationContent(
+        uiState = uiState,
+        onNextStep = viewModel::nextStep,
+        onPreviousStep = viewModel::previousStep,
+        onDrugSelected = viewModel::onDrugSelected,
+        onWeightChanged = viewModel::onWeightChanged,
+        onHeightChanged = viewModel::onHeightChanged,
+        onAgeChanged = viewModel::onAgeChanged
+    )
+}
+
+/**
+ * Contenuto stateless della schermata di calcolo.
+ * Implementa il pattern State Hoisting per facilitare test e preview.
+ *
+ * @param uiState Lo stato corrente della UI.
+ * @param onNextStep Callback per passare allo step successivo.
+ * @param onPreviousStep Callback per tornare allo step precedente.
+ * @param onDrugSelected Callback per la selezione di un farmaco.
+ * @param onWeightChanged Callback per la modifica del peso.
+ * @param onHeightChanged Callback per la modifica dell'altezza.
+ * @param onAgeChanged Callback per la modifica dell'età.
+ */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun CalculationContent(
+    uiState: CalculationUiState,
+    onNextStep: () -> Unit,
+    onPreviousStep: () -> Unit,
+    onDrugSelected: (Drug) -> Unit,
+    onWeightChanged: (String) -> Unit,
+    onHeightChanged: (String) -> Unit,
+    onAgeChanged: (String) -> Unit
+) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
                 title = { Text(stringResource(R.string.calc_title), fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     if (uiState.currentStep != CalculationStep.DRUG_SELECTION) {
-                        IconButton(onClick = viewModel::previousStep) {
+                        IconButton(onClick = onPreviousStep) {
                             Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.calc_back))
                         }
                     }
@@ -59,12 +100,11 @@ fun CalculationScreen(
                     contentPadding = PaddingValues(16.dp)
                 ) {
                     Button(
-                        onClick = viewModel::nextStep,
+                        onClick = onNextStep,
                         modifier = Modifier.fillMaxWidth(),
                         enabled = when (uiState.currentStep) {
                             CalculationStep.DRUG_SELECTION -> uiState.selectedDrug != null
                             CalculationStep.PATIENT_DATA -> uiState.weightInput.isNotEmpty()
-                            else -> true
                         }
                     ) {
                         Text(if (uiState.currentStep == CalculationStep.PATIENT_DATA) stringResource(R.string.calc_calculate) else stringResource(R.string.calc_next))
@@ -87,10 +127,8 @@ fun CalculationScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
-            // Indicatore di progresso (Step)
             StepIndicator(currentStep = uiState.currentStep)
 
-            // Animazione tra gli step
             AnimatedContent(
                 targetState = uiState.currentStep,
                 transitionSpec = {
@@ -107,7 +145,7 @@ fun CalculationScreen(
                         DrugSelectionStep(
                             drugs = uiState.drugs,
                             selectedDrug = uiState.selectedDrug,
-                            onDrugSelected = viewModel::onDrugSelected
+                            onDrugSelected = onDrugSelected
                         )
                     }
                     CalculationStep.PATIENT_DATA -> {
@@ -116,9 +154,9 @@ fun CalculationScreen(
                             height = uiState.heightInput,
                             age = uiState.ageInput,
                             formulaType = uiState.selectedDrug?.formulaType ?: FormulaType.PER_KG,
-                            onWeightChanged = viewModel::onWeightChanged,
-                            onHeightChanged = viewModel::onHeightChanged,
-                            onAgeChanged = viewModel::onAgeChanged
+                            onWeightChanged = onWeightChanged,
+                            onHeightChanged = onHeightChanged,
+                            onAgeChanged = onAgeChanged
                         )
                     }
                     CalculationStep.RESULT -> {
@@ -126,7 +164,7 @@ fun CalculationScreen(
                             dose = uiState.calculatedDose ?: 0.0,
                             unit = uiState.selectedDrug?.unit ?: "",
                             alerts = uiState.selectedDrug?.alerts ?: emptyList(),
-                            onReset = viewModel::previousStep
+                            onReset = onPreviousStep
                         )
                     }
                 }
@@ -140,7 +178,7 @@ fun CalculationScreen(
 }
 
 @Composable
-fun DrugSelectionStep(
+private fun DrugSelectionStep(
     drugs: List<Drug>,
     selectedDrug: Drug?,
     onDrugSelected: (Drug) -> Unit
@@ -166,7 +204,7 @@ fun DrugSelectionStep(
 }
 
 @Composable
-fun PatientDataStep(
+private fun PatientDataStep(
     weight: String,
     height: String,
     age: String,
@@ -184,7 +222,7 @@ fun PatientDataStep(
             label = { Text(stringResource(R.string.patient_weight_label)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
             modifier = Modifier.fillMaxWidth(),
-            prefix = { Icon(Icons.Default.Check, contentDescription = null, modifier = Modifier.size(16.dp)) } // Segnaposto icona
+            prefix = { Icon(Icons.Default.Check, contentDescription = null, modifier = Modifier.size(16.dp)) }
         )
 
         if (formulaType == FormulaType.PER_BSA) {
@@ -208,7 +246,7 @@ fun PatientDataStep(
 }
 
 @Composable
-fun ResultStep(
+private fun ResultStep(
     dose: Double,
     unit: String,
     alerts: List<String>,
