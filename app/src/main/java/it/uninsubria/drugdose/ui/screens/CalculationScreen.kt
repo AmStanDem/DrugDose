@@ -23,9 +23,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import it.uninsubria.drugdose.R
 import it.uninsubria.drugdose.domain.model.Drug
 import it.uninsubria.drugdose.domain.model.FormulaType
-import it.uninsubria.drugdose.ui.calculation.CalculationStep
-import it.uninsubria.drugdose.ui.calculation.CalculationUiState
-import it.uninsubria.drugdose.ui.calculation.CalculationViewModel
+import it.uninsubria.drugdose.ui.viewmodel.CalculationStep
+import it.uninsubria.drugdose.ui.viewmodel.CalculationUiState
+import it.uninsubria.drugdose.ui.viewmodel.CalculationViewModel
 import it.uninsubria.drugdose.ui.components.DrugSelector
 import it.uninsubria.drugdose.ui.components.SafetyAlertCard
 import it.uninsubria.drugdose.ui.components.StepIndicator

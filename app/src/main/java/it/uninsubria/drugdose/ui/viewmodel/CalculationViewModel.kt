@@ -1,11 +1,10 @@
-package it.uninsubria.drugdose.ui.calculation
+package it.uninsubria.drugdose.ui.viewmodel
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
-import it.uninsubria.drugdose.R
 import it.uninsubria.drugdose.domain.model.Drug
 import it.uninsubria.drugdose.domain.model.Patient
 import it.uninsubria.drugdose.domain.repository.DrugRepository
@@ -13,6 +12,7 @@ import it.uninsubria.drugdose.domain.usecase.CalculateDoseUseCase
 import it.uninsubria.drugdose.domain.usecase.GetDrugsUseCase
 import it.uninsubria.drugdose.ui.navigation.DrugDetailRoute
 import it.uninsubria.drugdose.ui.util.UiText
+import it.uninsubria.drugdose.R
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -55,7 +55,7 @@ class CalculationViewModel @Inject constructor(
 
     fun onDrugSelected(drug: Drug) {
         _uiState.update { it.copy(
-            selectedDrug = drug, 
+            selectedDrug = drug,
             showResult = false,
             currentStep = CalculationStep.PATIENT_DATA
         ) }
@@ -120,18 +120,19 @@ class CalculationViewModel @Inject constructor(
             )
 
             val dose = calculateDoseUseCase(patient, drug)
-            _uiState.update { 
+            _uiState.update {
                 it.copy(
-                    calculatedDose = dose, 
+                    calculatedDose = dose,
                     showResult = true,
                     currentStep = CalculationStep.RESULT,
                     error = null
-                ) 
+                )
             }
         } catch (e: IllegalArgumentException) {
             _uiState.update { it.copy(error = UiText.DynamicString(e.message ?: "")) }
         } catch (e: Exception) {
-            _uiState.update { it.copy(error = UiText.StringResource(R.string.error_calculation, e.message ?: "")) }
+            _uiState.update { it.copy(error = UiText.StringResource(
+                R.string.error_calculation, e.message ?: "")) }
         }
     }
 }

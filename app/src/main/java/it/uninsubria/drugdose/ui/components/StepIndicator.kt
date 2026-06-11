@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import it.uninsubria.drugdose.R
-import it.uninsubria.drugdose.ui.calculation.CalculationStep
+import it.uninsubria.drugdose.ui.viewmodel.CalculationStep
 
 /**
  * Indicatore visivo del progresso del calcolo della dose.

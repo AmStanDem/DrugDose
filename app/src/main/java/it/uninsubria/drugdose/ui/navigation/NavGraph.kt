@@ -5,7 +5,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import it.uninsubria.drugdose.ui.calculation.CalculationViewModel
+import it.uninsubria.drugdose.ui.viewmodel.CalculationViewModel
 import it.uninsubria.drugdose.ui.screens.CalculationScreen
 import it.uninsubria.drugdose.ui.screens.DrugListScreen
 
