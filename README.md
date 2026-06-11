@@ -39,7 +39,7 @@ Per una navigazione ottimale tra le informazioni del progetto, scegli il documen
 ## 👨‍💻 Autore
 **Thomas Riotto**  
 *Università degli Studi dell'Insubria*  
-Corso di Sviluppo Applicazioni Mobili - A.A. 2024/2025
+Corso di Programmazione di dispositivi mobili- A.A. 2025/2026
 
 ---
 > [!IMPORTANT]
