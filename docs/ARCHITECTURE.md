@@ -4,7 +4,7 @@ Questo documento fornisce una spiegazione approfondita delle scelte architettoni
 
 > [!NOTE]
 > **Autore**: Thomas Riotto  
-> **Contesto**: Progetto per il corso di Sviluppo Applicazioni Mobili - Università degli Studi dell'Insubria.
+> **Contesto**: Progetto per il corso di Programmazione di dispositivi mobili - Università degli Studi dell'Insubria.
 
 ---
 
