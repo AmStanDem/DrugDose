@@ -190,13 +190,45 @@ private fun DrugSelectionStep(
             selectedDrug = selectedDrug,
             onDrugSelected = onDrugSelected
         )
-        selectedDrug?.let {
+        selectedDrug?.let { drug ->
             Card(
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.4f))
             ) {
-                Column(Modifier.padding(16.dp)) {
-                    Text(it.name, fontWeight = FontWeight.Bold)
-                    Text(it.indication, style = MaterialTheme.typography.bodySmall)
+                Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Text(drug.name, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                    Text(drug.indication, style = MaterialTheme.typography.bodySmall)
+                    
+                    HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp), color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.2f))
+                    
+                    // --- Informazioni Formula e Vincoli (Allineamento al Mockup) ---
+                    val formulaDesc = when(drug.formulaType) {
+                        FormulaType.PER_KG -> stringResource(R.string.formula_per_kg)
+                        FormulaType.PER_BSA -> stringResource(R.string.formula_per_bsa)
+                        FormulaType.FIXED -> stringResource(R.string.formula_fixed)
+                        FormulaType.WEIGHT_RANGE -> stringResource(R.string.formula_weight_range)
+                    }
+                    
+                    Text(
+                        text = stringResource(R.string.info_formula_label, formulaDesc),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                    
+                    if (drug.minAgeYears != null || drug.minWeightKg != null) {
+                        Column {
+                            Text(
+                                text = stringResource(R.string.info_constraints_label),
+                                style = MaterialTheme.typography.labelSmall,
+                                fontWeight = FontWeight.Bold
+                            )
+                            drug.minAgeYears?.let {
+                                Text("• " + stringResource(R.string.constraint_min_age, it), style = MaterialTheme.typography.labelSmall)
+                            }
+                            drug.minWeightKg?.let {
+                                Text("• " + stringResource(R.string.constraint_min_weight, it), style = MaterialTheme.typography.labelSmall)
+                            }
+                        }
+                    }
                 }
             }
         }

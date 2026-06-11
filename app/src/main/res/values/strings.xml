@@ -33,4 +33,15 @@
     <string name="error_min_weight">Il peso (%1$.1f kg) è inferiore al minimo richiesto di %2$.1f kg.</string>
     <string name="error_no_drug_found">Nessun farmaco trovato</string>
     <string name="error_db_empty">Il database locale è vuoto.</string>
+
+    <!-- Formula & Constraints Info -->
+    <string name="info_formula_label">Formula: %s</string>
+    <string name="info_constraints_label">Vincoli di sicurezza:</string>
+    <string name="formula_per_kg">Calcolo basato sul peso (mg/kg)</string>
+    <string name="formula_per_bsa">Calcolo superficie corporea (BSA)</string>
+    <string name="formula_fixed">Dose fissa standard</string>
+    <string name="formula_weight_range">Tabella a fasce di peso</string>
+    <string name="constraint_min_age">Età minima: %d anni</string>
+    <string name="constraint_min_weight">Peso minimo: %.1f kg</string>
+    <string name="constraint_none">Nessun vincolo specifico</string>
 </resources>
